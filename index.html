@@ -20,6 +20,8 @@
             --error: #ef4444;
             --error-light: #fca5a5;
             --shadow: rgba(0, 0, 0, 0.4);
+            --gamepass-blue: #667eea;
+            --gamepass-blue-light: rgba(102, 126, 234, 0.1);
         }
         
         * {
@@ -104,7 +106,19 @@
             font-weight: 700;
         }
         
+        .input-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
         .input-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        
+        .input-group.full-width {
+            flex: 100%;
             margin-bottom: 2rem;
         }
         
@@ -116,12 +130,11 @@
             font-size: 0.95rem;
         }
         
-        .robux-input {
+        .input-field {
             width: 100%;
             padding: 1rem;
-            font-size: 1.5rem;
-            font-weight: 700;
-            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
             border: 2px solid var(--border-light);
             border-radius: 10px;
             background: var(--bg-tertiary);
@@ -129,10 +142,26 @@
             transition: all 0.2s ease;
         }
         
-        .robux-input:focus {
+        .input-field:focus {
             outline: none;
             border-color: var(--accent);
             background: var(--bg-tertiary);
+        }
+        
+        .input-field.error {
+            border-color: var(--error);
+            background: rgba(239, 68, 68, 0.05);
+        }
+        
+        .robux-input {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .nickname-input {
+            font-size: 1rem;
+            padding: 0.875rem 1rem;
         }
         
         .slider-container {
@@ -228,6 +257,21 @@
             font-size: 2rem;
             font-weight: 800;
             color: var(--accent);
+        }
+        
+        .gamepass-info {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: var(--gamepass-blue-light);
+            border-radius: 8px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+        
+        .gamepass-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gamepass-blue);
+            margin-top: 0.5rem;
         }
         
         .info-box {
@@ -364,6 +408,22 @@
             font-weight: 600;
         }
         
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(255, 77, 141, 0.1);
+            border-radius: 8px;
+            margin-top: 1rem;
+            border: 1px solid rgba(255, 77, 141, 0.2);
+        }
+        
+        .user-info-icon {
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+        
         @media (max-width: 480px) {
             .calculator {
                 padding: 1.5rem;
@@ -379,6 +439,11 @@
             
             .example-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .input-row {
+                flex-direction: column;
+                gap: 1rem;
             }
         }
         
@@ -396,6 +461,13 @@
         .fade-in {
             animation: fadeIn 0.5s ease-out;
         }
+        
+        .note {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+            font-style: italic;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -408,23 +480,37 @@
         </div>
         
         <div class="calculator fade-in">
-            <div class="calculator-title">Калькулятор Robux</div>
+            <div class="calculator-title">Магазин Robux</div>
             
             <div class="rate-info">
                 <i class="fas fa-exchange-alt" style="color: var(--accent);"></i> 
                 Курс: <strong class="rate-highlight">1 P = 1.1 R$</strong>
             </div>
             
-            <div class="input-group">
+            <div class="input-row">
+                <div class="input-group">
+                    <label class="input-label">
+                        <i class="fas fa-user"></i> Ваш ник в Roblox
+                    </label>
+                    <input 
+                        type="text" 
+                        class="input-field nickname-input" 
+                        id="nicknameInput" 
+                        placeholder="Введите ваш ник"
+                        maxlength="20"
+                    >
+                </div>
+            </div>
+            
+            <div class="input-group full-width">
                 <label class="input-label">
-                    Сколько Robux нужно?
+                    <i class="fas fa-coins"></i> Сколько Robux нужно?
                 </label>
                 <input 
                     type="number" 
-                    class="robux-input" 
+                    class="input-field robux-input" 
                     id="robuxInput" 
                     value="500"
-                    min="1"
                     placeholder="Введите количество"
                 >
             </div>
@@ -434,12 +520,12 @@
                     type="range" 
                     class="slider" 
                     id="robuxSlider" 
-                    min="1" 
+                    min="20" 
                     max="50000" 
                     value="500"
                 >
                 <div class="slider-values">
-                    <span>1 R$</span>
+                    <span>20 R$</span>
                     <span>25000 R$</span>
                     <span>50000 R$</span>
                 </div>
@@ -477,14 +563,31 @@
             
             <div id="errorMessage" class="error-message">
                 <i class="fas fa-exclamation-circle"></i> 
-                <span id="errorText">Ошибка: введите значение от 20 до 50,000 Robux</span>
+                <span id="errorText">Ошибка</span>
             </div>
             
             <div class="result-card">
                 <div class="result-label">Вы получаете</div>
                 <div class="result-amount" id="robuxAmount">500</div>
-                <div class="result-label">Стоимость</div>
+                <div class="result-label">Стоимость для вас</div>
                 <div class="result-rub" id="rubAmount">455 ₽</div>
+                
+                <div class="user-info" id="userInfoBox" style="display: none;">
+                    <i class="fas fa-user-circle user-info-icon"></i>
+                    <div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Никнейм:</div>
+                        <div id="displayNickname" style="font-weight: 600; color: var(--accent);"></div>
+                    </div>
+                </div>
+                
+                <div class="gamepass-info">
+                    <div class="result-label">
+                        <i class="fas fa-gamepad" style="color: var(--gamepass-blue); margin-right: 8px;"></i>
+                        Цена Game Pass
+                    </div>
+                    <div class="gamepass-price" id="gamepassPrice">650 ₽</div>
+                    <div class="note">(приблизительно, могу сказать другую цену)</div>
+                </div>
             </div>
             
             <div class="info-box">
@@ -519,18 +622,27 @@
     </div>
 
     <script>
+        const nicknameInput = document.getElementById('nicknameInput');
         const robuxInput = document.getElementById('robuxInput');
         const robuxSlider = document.getElementById('robuxSlider');
         const robuxAmount = document.getElementById('robuxAmount');
         const rubAmount = document.getElementById('rubAmount');
+        const gamepassPrice = document.getElementById('gamepassPrice');
         const orderBtn = document.getElementById('orderBtn');
         const orderRobux = document.getElementById('orderRobux');
         const errorMessage = document.getElementById('errorMessage');
         const errorText = document.getElementById('errorText');
         const exampleItems = document.querySelectorAll('.example-item');
+        const userInfoBox = document.getElementById('userInfoBox');
+        const displayNickname = document.getElementById('displayNickname');
         
-        const calculatePrice = (robux) => {
+        const calculateCustomerPrice = (robux) => {
             return Math.round(robux / 1.1 * 100) / 100;
+        };
+        
+        const calculateGamepassPrice = (customerPrice) => {
+            const result = customerPrice / 0.7;
+            return Math.floor(result) + (result % 1 >= 0.5 ? 1 : 0);
         };
         
         const formatNumber = (num) => {
@@ -539,48 +651,97 @@
         
         const formatPrice = (price) => {
             return price.toLocaleString('ru-RU', {
-                minimumFractionDigits: price % 1 === 0 ? 0 : 2,
-                maximumFractionDigits: 2
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
             });
         };
         
         const showError = (message) => {
             errorText.textContent = message;
             errorMessage.style.display = 'block';
+            robuxInput.classList.add('error');
         };
         
         const hideError = () => {
             errorMessage.style.display = 'none';
+            robuxInput.classList.remove('error');
         };
         
-        const updateValues = () => {
-            let robux = parseInt(robuxInput.value);
+        const validateInput = () => {
+            const nickname = nicknameInput.value.trim();
+            const robuxValue = robuxInput.value.trim();
+            
+            if (nickname === '') {
+                showError('Пожалуйста, введите ваш ник в Roblox');
+                nicknameInput.classList.add('error');
+                return false;
+            }
+            
+            if (nickname.length < 3 || nickname.length > 20) {
+                showError('Ник должен быть от 3 до 20 символов');
+                nicknameInput.classList.add('error');
+                return false;
+            }
+            
+            nicknameInput.classList.remove('error');
+            
+            if (robuxValue === '') {
+                showError('Пожалуйста, введите количество Robux');
+                robuxInput.classList.add('error');
+                return false;
+            }
+            
+            const robux = parseInt(robuxValue);
             
             if (isNaN(robux)) {
-                robux = 500;
-                robuxInput.value = robux;
                 showError('Пожалуйста, введите число');
-                return;
+                robuxInput.classList.add('error');
+                return false;
             }
             
             if (robux < 20) {
                 showError('Минимальный заказ: 20 Robux');
-                return;
+                robuxInput.classList.add('error');
+                return false;
             }
             
             if (robux > 50000) {
                 showError('Максимальный лимит: 50,000 Robux');
+                robuxInput.classList.add('error');
+                return false;
+            }
+            
+            robuxInput.classList.remove('error');
+            return true;
+        };
+        
+        const updateValues = () => {
+            const nickname = nicknameInput.value.trim();
+            const robuxValue = robuxInput.value.trim();
+            
+            if (nickname === '' || robuxValue === '') {
+                userInfoBox.style.display = 'none';
+                return;
+            }
+            
+            if (!validateInput()) {
                 return;
             }
             
             hideError();
             
+            const robux = parseInt(robuxValue);
             robuxSlider.value = robux;
             
-            const rub = calculatePrice(robux);
+            displayNickname.textContent = nickname;
+            userInfoBox.style.display = 'flex';
+            
+            const customerPrice = calculateCustomerPrice(robux);
+            const gamepassPriceValue = calculateGamepassPrice(customerPrice);
             
             robuxAmount.textContent = formatNumber(robux);
-            rubAmount.textContent = formatPrice(rub) + ' ₽';
+            rubAmount.textContent = formatPrice(customerPrice) + ' ₽';
+            gamepassPrice.textContent = formatPrice(gamepassPriceValue) + ' ₽';
             orderRobux.textContent = formatNumber(robux);
             
             orderBtn.innerHTML = `
@@ -589,6 +750,7 @@
             `;
         };
         
+        nicknameInput.addEventListener('input', updateValues);
         robuxInput.addEventListener('input', updateValues);
         
         robuxSlider.addEventListener('input', () => {
@@ -613,20 +775,27 @@
         
         orderBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            
+            if (!validateInput()) {
+                return;
+            }
+            
+            const nickname = nicknameInput.value.trim();
             const robux = parseInt(robuxInput.value);
+            const customerPrice = calculateCustomerPrice(robux);
+            const gamepassPriceValue = calculateGamepassPrice(customerPrice);
             
-            if (robux < 20) {
-                showError('Минимальный заказ: 20 Robux');
-                return;
-            }
+            const message = `🎮 *ЗАКАЗ ROBUX*\n` +
+                          `━━━━━━━━━━━━━━━━━━━━\n` +
+                          `👤 *Никнейм:* ${nickname}\n` +
+                          `━━━━━━━━━━━━━━━━━━━━\n` +
+                          `💰 *Детали заказа:*\n` +
+                          `├ 🪙 Robux: ${formatNumber(robux)} R$\n` +
+                          `├ 💵 Стоимость: ${formatPrice(customerPrice)} ₽\n` +
+                          `└ 🎮 Game Pass: ~${formatPrice(gamepassPriceValue)} ₽\n` +
+                          `━━━━━━━━━━━━━━━━━━━━\n` +
+                          `⏱️ *Доставка:* 4 дня`;
             
-            if (robux > 50000) {
-                showError('Максимальный лимит: 50,000 Robux');
-                return;
-            }
-            
-            const rub = calculatePrice(robux);
-            const message = `Привет! Хочу заказать ${formatNumber(robux)} Robux по Game Pass. Стоимость: ${formatPrice(rub)} ₽.`;
             window.open(`https://t.me/Ymluo?text=${encodeURIComponent(message)}`, '_blank');
         });
         
@@ -643,6 +812,8 @@
                     el.style.transform = 'translateY(0)';
                 }, 100 * index);
             });
+            
+            nicknameInput.focus();
         });
     </script>
 </body>

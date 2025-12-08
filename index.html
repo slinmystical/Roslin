@@ -22,6 +22,7 @@
             --shadow: rgba(0, 0, 0, 0.4);
             --gamepass-blue: #667eea;
             --gamepass-blue-light: rgba(102, 126, 234, 0.1);
+            --success: #10b981;
         }
         
         * {
@@ -36,27 +37,229 @@
             color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
-            padding: 1rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            overflow-x: hidden;
+            position: relative;
         }
         
-        .container {
-            max-width: 500px;
+        /* АНИМИРОВАННЫЙ ФОН */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 77, 141, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(102, 126, 234, 0.04) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a0a 0%, #111111 100%);
         }
         
-        .header {
+        .floating-circles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, 
+                rgba(255, 77, 141, 0.08), 
+                rgba(255, 77, 141, 0.02));
+            animation: float 25s infinite ease-in-out;
+            filter: blur(40px);
+        }
+        
+        .circle:nth-child(1) {
+            width: 500px;
+            height: 500px;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+        
+        .circle:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            top: 60%;
+            right: 10%;
+            animation-delay: -8s;
+            background: radial-gradient(circle at 70% 30%, 
+                rgba(102, 126, 234, 0.06), 
+                rgba(102, 126, 234, 0.02));
+        }
+        
+        .circle:nth-child(3) {
+            width: 300px;
+            height: 300px;
+            bottom: 20%;
+            left: 15%;
+            animation-delay: -16s;
+            background: radial-gradient(circle at 50% 50%, 
+                rgba(255, 133, 179, 0.05), 
+                rgba(255, 133, 179, 0.01));
+        }
+        
+        .geometric-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .shape {
+            position: absolute;
+            border: 1px solid;
+            opacity: 0.03;
+            animation: rotate 50s infinite linear;
+        }
+        
+        .shape:nth-child(1) {
+            width: 250px;
+            height: 250px;
+            top: 15%;
+            right: 20%;
+            border-color: var(--accent);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation-delay: 0s;
+        }
+        
+        .shape:nth-child(2) {
+            width: 180px;
+            height: 180px;
+            bottom: 25%;
+            left: 20%;
+            border-color: var(--gamepass-blue);
+            border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+            animation-delay: -15s;
+        }
+        
+        .glowing-dots {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .dot {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            filter: blur(1px);
+            animation: pulse 4s infinite ease-in-out;
+            opacity: 0.2;
+        }
+        
+        .dot:nth-child(1) { top: 30%; left: 25%; animation-delay: 0s; }
+        .dot:nth-child(2) { top: 60%; right: 30%; animation-delay: 1s; background: var(--gamepass-blue); }
+        .dot:nth-child(3) { bottom: 40%; left: 40%; animation-delay: 2s; }
+        .dot:nth-child(4) { top: 20%; right: 15%; animation-delay: 3s; background: var(--accent-light); }
+        
+        .gradient-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.02;
+        }
+        
+        .line {
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                var(--accent), 
+                transparent);
+            animation: slide 20s infinite linear;
+        }
+        
+        .line:nth-child(1) {
+            top: 25%;
+            animation-delay: 0s;
+        }
+        
+        .line:nth-child(2) {
+            top: 50%;
+            animation-delay: -10s;
+            background: linear-gradient(90deg, 
+                transparent, 
+                var(--gamepass-blue), 
+                transparent);
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            33% {
+                transform: translate(40px, -60px) rotate(120deg);
+            }
+            66% {
+                transform: translate(-30px, 50px) rotate(240deg);
+            }
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(1.2);
+            }
+        }
+        
+        @keyframes slide {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+        
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* ЛЕВАЯ ПАНЕЛЬ - ФОРМА */
+        .form-panel {
+            width: 400px;
+            min-width: 400px;
+            background: rgba(26, 26, 26, 0.85);
+            border-right: 1px solid rgba(51, 51, 51, 0.5);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo-section {
             text-align: center;
             margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-light);
         }
         
         .logo {
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             font-weight: 900;
             color: var(--text-primary);
-            margin-bottom: 0.25rem;
             letter-spacing: -2px;
             text-shadow: 0 0 15px rgba(255, 77, 141, 0.3);
         }
@@ -67,85 +270,47 @@
         
         .subtitle {
             color: var(--text-secondary);
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 500;
+            margin-top: 0.25rem;
         }
         
-        .calculator {
-            background: var(--bg-secondary);
-            border-radius: 16px;
-            padding: 2.5rem;
-            box-shadow: 
-                0 0 0 1px var(--border),
-                0 8px 32px var(--shadow);
-            margin-bottom: 2rem;
-            border: 1px solid var(--border);
-        }
-        
-        .calculator-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            color: var(--text-primary);
-            text-align: center;
-        }
-        
-        .rate-info {
-            text-align: center;
-            margin: 1.5rem 0;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            padding: 0.75rem;
-            background: var(--bg-tertiary);
-            border-radius: 8px;
-            border: 1px solid var(--border-light);
-        }
-        
-        .rate-highlight {
-            color: var(--accent);
-            font-weight: 700;
-        }
-        
-        .input-row {
+        .form-content {
+            flex: 1;
             display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            flex-direction: column;
         }
         
         .input-group {
-            flex: 1;
-            margin-bottom: 0;
-        }
-        
-        .input-group.full-width {
-            flex: 100%;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
         
         .input-label {
             display: block;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
             font-weight: 600;
             color: var(--text-primary);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
         
         .input-field {
             width: 100%;
-            padding: 1rem;
+            padding: 0.875rem;
             font-size: 1rem;
             font-weight: 600;
             border: 2px solid var(--border-light);
-            border-radius: 10px;
-            background: var(--bg-tertiary);
+            border-radius: 8px;
+            background: rgba(37, 37, 37, 0.7);
             color: var(--text-primary);
             transition: all 0.2s ease;
+            backdrop-filter: blur(5px);
         }
         
         .input-field:focus {
             outline: none;
             border-color: var(--accent);
-            background: var(--bg-tertiary);
+            background: rgba(37, 37, 37, 0.9);
+            box-shadow: 0 0 0 3px rgba(255, 77, 141, 0.1);
         }
         
         .input-field.error {
@@ -154,36 +319,33 @@
         }
         
         .robux-input {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
             text-align: center;
         }
         
-        .nickname-input {
-            font-size: 1rem;
-            padding: 0.875rem 1rem;
-        }
-        
         .slider-container {
-            margin: 2.5rem 0;
-            padding: 0 0.5rem;
+            margin: 1.5rem 0;
         }
         
         .slider {
             width: 100%;
-            height: 6px;
+            height: 5px;
             -webkit-appearance: none;
             appearance: none;
             background: var(--border);
             border-radius: 3px;
             outline: none;
+            background: linear-gradient(90deg, 
+                var(--accent), 
+                var(--accent-light));
         }
         
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
             background: var(--accent);
             cursor: pointer;
@@ -194,36 +356,155 @@
         
         .slider::-webkit-slider-thumb:hover {
             transform: scale(1.1);
-        }
-        
-        .slider::-moz-range-thumb {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: var(--accent);
-            cursor: pointer;
-            border: 3px solid var(--bg-primary);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 15px var(--accent);
         }
         
         .slider-values {
             display: flex;
             justify-content: space-between;
-            margin-top: 0.75rem;
+            margin-top: 0.5rem;
             color: var(--text-tertiary);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 500;
         }
         
-        .result-card {
-            background: var(--bg-tertiary);
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            padding: 2rem;
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .example-item {
             text-align: center;
-            margin-top: 2rem;
+            padding: 0.75rem;
+            background: rgba(37, 37, 37, 0.7);
+            border-radius: 6px;
+            border: 1px solid rgba(51, 51, 51, 0.5);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .example-item:hover {
+            border-color: var(--accent);
+            background: rgba(26, 26, 26, 0.9);
+            transform: translateY(-2px);
+        }
+        
+        .example-robux {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+        }
+        
+        .example-price {
+            font-size: 0.75rem;
+            color: var(--accent);
+            margin-top: 0.25rem;
+            font-weight: 600;
+        }
+        
+        .error-message {
+            display: none;
+            text-align: center;
+            margin: 0.75rem 0;
+            padding: 0.75rem;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error-light);
+            border-radius: 8px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            font-weight: 500;
+            font-size: 0.85rem;
+            backdrop-filter: blur(5px);
+        }
+        
+        .order-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            margin-top: 1rem;
             position: relative;
             overflow: hidden;
+        }
+        
+        .order-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .order-btn:hover::before {
+            left: 100%;
+        }
+        
+        .order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 77, 141, 0.4);
+        }
+        
+        /* ПРАВАЯ ПАНЕЛЬ - РЕЗУЛЬТАТ */
+        .result-panel {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(10px);
+        }
+        
+        .result-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(51, 51, 51, 0.5);
+        }
+        
+        .result-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .result-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .result-card {
+            background: rgba(37, 37, 37, 0.7);
+            border: 2px solid rgba(51, 51, 51, 0.5);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        
+        .result-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
         
         .result-card::before {
@@ -237,7 +518,7 @@
         }
         
         .result-label {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: var(--text-secondary);
             margin-bottom: 0.5rem;
             text-transform: uppercase;
@@ -246,110 +527,129 @@
         }
         
         .result-amount {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 900;
-            margin-bottom: 0.5rem;
             color: var(--text-primary);
             line-height: 1;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px rgba(255, 77, 141, 0.3);
         }
         
-        .result-rub {
-            font-size: 2rem;
+        .result-price {
+            font-size: 1.75rem;
             font-weight: 800;
             color: var(--accent);
+            text-shadow: 0 0 10px rgba(255, 77, 141, 0.3);
         }
         
-        .gamepass-info {
-            margin-top: 1.5rem;
-            padding: 1rem;
-            background: var(--gamepass-blue-light);
-            border-radius: 8px;
+        .user-card {
+            background: rgba(255, 77, 141, 0.1);
+            border: 1px solid rgba(255, 77, 141, 0.2);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-icon {
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+        
+        .user-details h3 {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .user-details p {
+            font-weight: 600;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+        
+        .gamepass-card {
+            background: rgba(102, 126, 234, 0.1);
             border: 1px solid rgba(102, 126, 234, 0.2);
         }
         
         .gamepass-price {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             font-weight: 700;
             color: var(--gamepass-blue);
             margin-top: 0.5rem;
+            text-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        }
+        
+        .note {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+        
+        .info-section {
+            margin-top: 2rem;
         }
         
         .info-box {
-            text-align: center;
-            margin: 1.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
             padding: 1rem;
             background: rgba(255, 77, 141, 0.1);
             border-radius: 8px;
+            border: 1px solid rgba(255, 77, 141, 0.2);
             color: var(--text-secondary);
             font-size: 0.9rem;
-            border: 1px solid rgba(255, 77, 141, 0.2);
+            margin-bottom: 1rem;
+            backdrop-filter: blur(5px);
         }
         
-        .btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            width: 100%;
-            padding: 1.25rem;
-            background: linear-gradient(135deg, var(--accent), var(--accent-light));
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            margin-top: 1.5rem;
+        .info-icon {
+            color: var(--accent);
+            font-size: 1.2rem;
         }
         
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 77, 141, 0.3);
+        .contacts-section {
+            margin-top: auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(51, 51, 51, 0.5);
         }
         
-        .error-message {
-            display: none;
-            text-align: center;
-            margin-top: 1rem;
-            padding: 0.75rem;
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--error-light);
-            border-radius: 8px;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-        
-        .contacts {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            margin-top: 2rem;
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
         
         .contact-btn {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 1rem 1.5rem;
-            background: var(--bg-tertiary);
+            padding: 0.875rem;
+            background: rgba(37, 37, 37, 0.7);
             color: var(--text-primary);
             text-decoration: none;
             border-radius: 8px;
             transition: all 0.2s ease;
             font-weight: 500;
-            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            border: 1px solid rgba(51, 51, 51, 0.5);
+            backdrop-filter: blur(5px);
         }
         
         .contact-btn:hover {
             border-color: var(--accent);
-            background: var(--bg-secondary);
+            background: rgba(26, 26, 26, 0.9);
+            transform: translateY(-2px);
         }
         
         .contact-icon {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: var(--accent);
         }
         
@@ -357,93 +657,102 @@
             text-align: center;
             margin-top: 2rem;
             color: var(--text-tertiary);
-            font-size: 0.8rem;
-            line-height: 1.5;
+            font-size: 0.75rem;
         }
         
-        .examples {
-            margin: 2rem 0;
-        }
-        
-        .examples-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 0.75rem;
+        .rate-info {
             text-align: center;
-        }
-        
-        .example-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
-        
-        .example-item {
-            text-align: center;
+            margin: 1rem 0;
             padding: 0.75rem;
-            background: var(--bg-tertiary);
-            border-radius: 6px;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            transition: all 0.2s ease;
+            background: rgba(37, 37, 37, 0.7);
+            border-radius: 8px;
+            border: 1px solid rgba(51, 51, 51, 0.5);
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            backdrop-filter: blur(5px);
         }
         
-        .example-item:hover {
-            border-color: var(--accent);
-            background: var(--bg-secondary);
-        }
-        
-        .example-robux {
-            font-weight: 700;
-            color: var(--text-primary);
-            font-size: 0.9rem;
-        }
-        
-        .example-price {
-            font-size: 0.8rem;
+        .rate-highlight {
             color: var(--accent);
-            margin-top: 0.25rem;
-            font-weight: 600;
+            font-weight: 700;
         }
         
-        .user-info {
+        .tg-channel-btn {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.75rem;
-            padding: 0.75rem;
-            background: rgba(255, 77, 141, 0.1);
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 136, 204, 0.1);
+            color: var(--text-primary);
+            text-decoration: none;
             border-radius: 8px;
-            margin-top: 1rem;
-            border: 1px solid rgba(255, 77, 141, 0.2);
+            border: 1px solid rgba(0, 136, 204, 0.3);
+            transition: all 0.2s ease;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 1.5rem;
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
         }
         
-        .user-info-icon {
-            color: var(--accent);
-            font-size: 1.2rem;
+        .tg-channel-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: 0.5s;
         }
         
-        @media (max-width: 480px) {
-            .calculator {
+        .tg-channel-btn:hover::before {
+            left: 100%;
+        }
+        
+        .tg-channel-btn:hover {
+            background: rgba(0, 136, 204, 0.2);
+            border-color: rgba(0, 136, 204, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .tg-icon {
+            color: #0088cc;
+            font-size: 1.3rem;
+        }
+        
+        /* АДАПТИВНОСТЬ */
+        @media (max-width: 1024px) {
+            .dashboard {
+                flex-direction: column;
+            }
+            
+            .form-panel {
+                width: 100%;
+                min-width: auto;
+                border-right: none;
+                border-bottom: 1px solid rgba(51, 51, 51, 0.5);
+            }
+            
+            .result-panel {
                 padding: 1.5rem;
             }
             
-            .result-amount {
-                font-size: 2.5rem;
+            .contacts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .result-cards {
+                grid-template-columns: 1fr;
             }
             
-            .logo {
-                font-size: 2.5rem;
-            }
-            
-            .example-grid {
+            .examples-grid {
                 grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .input-row {
-                flex-direction: column;
-                gap: 1rem;
             }
         }
         
@@ -461,33 +770,46 @@
         .fade-in {
             animation: fadeIn 0.5s ease-out;
         }
-        
-        .note {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-top: 0.25rem;
-            font-style: italic;
-        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo fade-in">ROS<span>LINE</span></div>
-            <div class="subtitle fade-in">Ваш лучший магазин Рообуксов ;)</div>
+    <!-- АНИМИРОВАННЫЙ ФОН -->
+    <div class="animated-bg">
+        <div class="floating-circles">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
         </div>
         
-        <div class="calculator fade-in">
-            <div class="calculator-title">Магазин Robux</div>
-            
-            <div class="rate-info">
-                <i class="fas fa-exchange-alt" style="color: var(--accent);"></i> 
-                Курс: <strong class="rate-highlight">1 P = 1.1 R$</strong>
+        <div class="geometric-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+        
+        <div class="glowing-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        
+        <div class="gradient-lines">
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </div>
+    
+    <div class="dashboard">
+        <!-- ЛЕВАЯ ПАНЕЛЬ - ФОРМА -->
+        <div class="form-panel fade-in">
+            <div class="logo-section">
+                <div class="logo">ROS<span>LINE</span></div>
+                <div class="subtitle">Магазин Robux</div>
             </div>
             
-            <div class="input-row">
+            <div class="form-content">
                 <div class="input-group">
                     <label class="input-label">
                         <i class="fas fa-user"></i> Ваш ник в Roblox
@@ -496,128 +818,159 @@
                         type="text" 
                         class="input-field nickname-input" 
                         id="nicknameInput" 
-                        placeholder="Введите ваш ник"
+                        placeholder="Введите ваш ник для заказа"
                         maxlength="20"
                     >
                 </div>
-            </div>
-            
-            <div class="input-group full-width">
-                <label class="input-label">
-                    <i class="fas fa-coins"></i> Сколько Robux нужно?
-                </label>
-                <input 
-                    type="number" 
-                    class="input-field robux-input" 
-                    id="robuxInput" 
-                    value="500"
-                    placeholder="Введите количество"
-                >
-            </div>
-            
-            <div class="slider-container">
-                <input 
-                    type="range" 
-                    class="slider" 
-                    id="robuxSlider" 
-                    min="20" 
-                    max="50000" 
-                    value="500"
-                >
-                <div class="slider-values">
-                    <span>20 R$</span>
-                    <span>25000 R$</span>
-                    <span>50000 R$</span>
-                </div>
-            </div>
-            
-            <div class="examples">
-                <div class="examples-title">Популярные суммы:</div>
-                <div class="example-grid">
-                    <div class="example-item" data-robux="100">
-                        <div class="example-robux">100 R$</div>
-                        <div class="example-price">91 ₽</div>
-                    </div>
-                    <div class="example-item" data-robux="500">
-                        <div class="example-robux">500 R$</div>
-                        <div class="example-price">455 ₽</div>
-                    </div>
-                    <div class="example-item" data-robux="1000">
-                        <div class="example-robux">1000 R$</div>
-                        <div class="example-price">909 ₽</div>
-                    </div>
-                    <div class="example-item" data-robux="2000">
-                        <div class="example-robux">2000 R$</div>
-                        <div class="example-price">1,818 ₽</div>
-                    </div>
-                    <div class="example-item" data-robux="5000">
-                        <div class="example-robux">5000 R$</div>
-                        <div class="example-price">4,545 ₽</div>
-                    </div>
-                    <div class="example-item" data-robux="10000">
-                        <div class="example-robux">10000 R$</div>
-                        <div class="example-price">9,091 ₽</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="errorMessage" class="error-message">
-                <i class="fas fa-exclamation-circle"></i> 
-                <span id="errorText">Ошибка</span>
-            </div>
-            
-            <div class="result-card">
-                <div class="result-label">Вы получаете</div>
-                <div class="result-amount" id="robuxAmount">500</div>
-                <div class="result-label">Стоимость для вас</div>
-                <div class="result-rub" id="rubAmount">455 ₽</div>
                 
-                <div class="user-info" id="userInfoBox" style="display: none;">
-                    <i class="fas fa-user-circle user-info-icon"></i>
-                    <div>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Никнейм:</div>
-                        <div id="displayNickname" style="font-weight: 600; color: var(--accent);"></div>
+                <div class="input-group">
+                    <label class="input-label">
+                        <i class="fas fa-coins"></i> Количество Robux
+                    </label>
+                    <input 
+                        type="number" 
+                        class="input-field robux-input" 
+                        id="robuxInput" 
+                        value="500"
+                        placeholder="Введите количество"
+                    >
+                </div>
+                
+                <div class="slider-container">
+                    <input 
+                        type="range" 
+                        class="slider" 
+                        id="robuxSlider" 
+                        min="20" 
+                        max="50000" 
+                        value="500"
+                    >
+                    <div class="slider-values">
+                        <span>20 R$</span>
+                        <span>25000 R$</span>
+                        <span>50000 R$</span>
                     </div>
                 </div>
                 
-                <div class="gamepass-info">
+                <div class="rate-info">
+                    <i class="fas fa-exchange-alt" style="color: var(--accent);"></i> 
+                    Курс для вас: <strong class="rate-highlight">1 P = 1.1 R$</strong>
+                </div>
+                
+                <div style="margin: 1rem 0;">
+                    <div class="input-label">Популярные суммы:</div>
+                    <div class="examples-grid">
+                        <div class="example-item" data-robux="80">
+                            <div class="example-robux">80 R$</div>
+                            <div class="example-price">73 ₽</div>
+                        </div>
+                        <div class="example-item" data-robux="100">
+                            <div class="example-robux">100 R$</div>
+                            <div class="example-price">91 ₽</div>
+                        </div>
+                        <div class="example-item" data-robux="500">
+                            <div class="example-robux">500 R$</div>
+                            <div class="example-price">455 ₽</div>
+                        </div>
+                        <div class="example-item" data-robux="1000">
+                            <div class="example-robux">1000 R$</div>
+                            <div class="example-price">909 ₽</div>
+                        </div>
+                        <div class="example-item" data-robux="2000">
+                            <div class="example-robux">2000 R$</div>
+                            <div class="example-price">1,818 ₽</div>
+                        </div>
+                        <div class="example-item" data-robux="5000">
+                            <div class="example-robux">5000 R$</div>
+                            <div class="example-price">4,545 ₽</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="errorMessage" class="error-message">
+                    <i class="fas fa-exclamation-circle"></i> 
+                    <span id="errorText">Ошибка</span>
+                </div>
+                
+                <button class="order-btn" id="orderBtn">
+                    <i class="fab fa-telegram"></i> 
+                    Заказать <span id="orderRobux">500</span> Robux
+                </button>
+            </div>
+        </div>
+        
+        <!-- ПРАВАЯ ПАНЕЛЬ - РЕЗУЛЬТАТ -->
+        <div class="result-panel fade-in">
+            <div class="result-header">
+                <h2>Детали заказа</h2>
+            </div>
+            
+            <div class="result-cards">
+                <div class="result-card">
+                    <div class="result-label">Вы получаете</div>
+                    <div class="result-amount" id="robuxAmount">500</div>
+                    <div class="result-label">Robux</div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-label">Стоимость для вас</div>
+                    <div class="result-price" id="rubAmount">455 ₽</div>
+                    <div class="result-label">Рублей</div>
+                </div>
+                
+                <div class="result-card user-card" id="userInfoBox">
+                    <div class="user-info">
+                        <i class="fas fa-user-circle user-icon"></i>
+                        <div class="user-details">
+                            <h3 id="nicknameLabel">Ваш никнейм (не указан)</h3>
+                            <p id="displayNickname">Введите ник для заказа</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-card gamepass-card">
                     <div class="result-label">
-                        <i class="fas fa-gamepad" style="color: var(--gamepass-blue); margin-right: 8px;"></i>
-                        Цена Game Pass
+                        <i class="fas fa-gamepad"></i> Цена Game Pass
                     </div>
-                    <div class="gamepass-price" id="gamepassPrice">650 ₽</div>
-                    <div class="note">(приблизительно, могу сказать другую цену)</div>
+                    <div class="gamepass-price" id="gamepassPrice">715</div>
+                    <div class="note">ROBUX</div>
                 </div>
             </div>
             
-            <div class="info-box">
-                <i class="fas fa-clock" style="color: var(--accent);"></i> 
-                Доставка через Game Pass занимает 4 дня
+            <div class="info-section">
+                <div class="info-box">
+                    <i class="fas fa-clock info-icon"></i>
+                    <div><strong>Доставка через Game Pass ПОСЛЕ ОПЛАТЫ занимает 120 ЧАСОВ</strong><br>
+                    <span style="font-size: 0.8rem;">Roblox фиксированно обрабатывает Game Pass ровно 120 часов</span></div>
+                </div>
+                
+                <!-- ТУТ КНОПКА ТГК ПОД БЛОКОМ ПРО 120 ЧАСОВ -->
+                <a href="https://t.me/Roslin_shop" class="tg-channel-btn" target="_blank">
+                    <i class="fab fa-telegram tg-icon"></i>
+                    <span>Telegram-канал: @Roslin_shop</span>
+                </a>
             </div>
             
-            <a href="#" class="btn" id="orderBtn">
-                <i class="fab fa-telegram"></i> 
-                Заказать <span id="orderRobux">500</span> Robux
-            </a>
-        </div>
-        
-        <div class="contacts fade-in">
-            <a href="https://t.me/Ymluo" class="contact-btn" target="_blank">
-                <i class="fab fa-telegram contact-icon"></i> 
-                <span>Telegram: @Ymluo</span>
-            </a>
-            <a href="mailto:slinmystic@gmail.com" class="contact-btn">
-                <i class="fas fa-envelope contact-icon"></i> 
-                <span>slinmystic@gmail.com</span>
-            </a>
-            <a href="https://playerok.com/profile/gighaner/products" class="contact-btn" target="_blank">
-                <i class="fas fa-store contact-icon"></i> 
-                <span>Playerok: gighaner</span>
-            </a>
-        </div>
-        
-        <div class="disclaimer fade-in">
-            © ROSLINE 2025 
+            <div class="contacts-section">
+                <div class="contacts-grid">
+                    <a href="https://t.me/Ymluo" class="contact-btn" target="_blank">
+                        <i class="fab fa-telegram contact-icon"></i> 
+                        <span>Заказ: @Ymluo</span>
+                    </a>
+                    <a href="mailto:slinmystic@gmail.com" class="contact-btn">
+                        <i class="fas fa-envelope contact-icon"></i> 
+                        <span>slinmystic@gmail.com</span>
+                    </a>
+                    <a href="https://playerok.com/profile/gighaner/products" class="contact-btn" target="_blank">
+                        <i class="fas fa-store contact-icon"></i> 
+                        <span>Playerok: gighaner</span>
+                    </a>
+                </div>
+                
+                <div class="disclaimer">
+                    © ROSLINE 2025
+                </div>
+            </div>
         </div>
     </div>
 
@@ -635,14 +988,18 @@
         const exampleItems = document.querySelectorAll('.example-item');
         const userInfoBox = document.getElementById('userInfoBox');
         const displayNickname = document.getElementById('displayNickname');
+        const nicknameLabel = document.getElementById('nicknameLabel');
         
+        // Цена для покупателя (1 руб = 1.1 Robux, значит 1 Robux = 0.909 руб)
         const calculateCustomerPrice = (robux) => {
-            return Math.round(robux / 1.1 * 100) / 100;
+            // Округляем до целых рублей
+            const price = robux / 1.1;
+            return Math.round(price);
         };
         
-        const calculateGamepassPrice = (customerPrice) => {
-            const result = customerPrice / 0.7;
-            return Math.floor(result) + (result % 1 >= 0.5 ? 1 : 0);
+        // Цена Game Pass (Robux × 1.429)
+        const calculateGamepassPrice = (robux) => {
+            return Math.round(robux * 1.429);
         };
         
         const formatNumber = (num) => {
@@ -668,26 +1025,10 @@
         };
         
         const validateInput = () => {
-            const nickname = nicknameInput.value.trim();
             const robuxValue = robuxInput.value.trim();
-            
-            if (nickname === '') {
-                showError('Пожалуйста, введите ваш ник в Roblox');
-                nicknameInput.classList.add('error');
-                return false;
-            }
-            
-            if (nickname.length < 3 || nickname.length > 20) {
-                showError('Ник должен быть от 3 до 20 символов');
-                nicknameInput.classList.add('error');
-                return false;
-            }
-            
-            nicknameInput.classList.remove('error');
             
             if (robuxValue === '') {
                 showError('Пожалуйста, введите количество Robux');
-                robuxInput.classList.add('error');
                 return false;
             }
             
@@ -695,23 +1036,19 @@
             
             if (isNaN(robux)) {
                 showError('Пожалуйста, введите число');
-                robuxInput.classList.add('error');
                 return false;
             }
             
             if (robux < 20) {
                 showError('Минимальный заказ: 20 Robux');
-                robuxInput.classList.add('error');
                 return false;
             }
             
             if (robux > 50000) {
                 showError('Максимальный лимит: 50,000 Robux');
-                robuxInput.classList.add('error');
                 return false;
             }
             
-            robuxInput.classList.remove('error');
             return true;
         };
         
@@ -719,8 +1056,7 @@
             const nickname = nicknameInput.value.trim();
             const robuxValue = robuxInput.value.trim();
             
-            if (nickname === '' || robuxValue === '') {
-                userInfoBox.style.display = 'none';
+            if (robuxValue === '') {
                 return;
             }
             
@@ -733,21 +1069,48 @@
             const robux = parseInt(robuxValue);
             robuxSlider.value = robux;
             
-            displayNickname.textContent = nickname;
-            userInfoBox.style.display = 'flex';
+            // Обновляем информацию о нике
+            if (nickname === '') {
+                nicknameLabel.textContent = 'Ваш никнейм (не указан)';
+                displayNickname.textContent = 'Введите ник для заказа';
+                displayNickname.style.color = 'var(--text-secondary)';
+                userInfoBox.style.background = 'rgba(255, 77, 141, 0.05)';
+            } else {
+                nicknameLabel.textContent = 'Ваш никнейм';
+                displayNickname.textContent = nickname;
+                displayNickname.style.color = 'var(--accent)';
+                userInfoBox.style.background = 'rgba(255, 77, 141, 0.1)';
+            }
             
-            const customerPrice = calculateCustomerPrice(robux);
-            const gamepassPriceValue = calculateGamepassPrice(customerPrice);
+            // Рассчеты
+            const customerPrice = calculateCustomerPrice(robux); // Цена для покупателя
+            const gamepassPriceValue = calculateGamepassPrice(robux); // Цена Game Pass
             
+            // Обновление отображения
             robuxAmount.textContent = formatNumber(robux);
             rubAmount.textContent = formatPrice(customerPrice) + ' ₽';
-            gamepassPrice.textContent = formatPrice(gamepassPriceValue) + ' ₽';
+            gamepassPrice.textContent = formatPrice(gamepassPriceValue) + '';
             orderRobux.textContent = formatNumber(robux);
             
             orderBtn.innerHTML = `
                 <i class="fab fa-telegram"></i> 
                 Заказать ${formatNumber(robux)} Robux
             `;
+            
+            // Обновляем примеры в реальном времени
+            updateExamplePrices();
+        };
+        
+        const updateExamplePrices = () => {
+            const exampleItems = document.querySelectorAll('.example-item');
+            exampleItems.forEach(item => {
+                const robux = parseInt(item.dataset.robux);
+                const customerPrice = calculateCustomerPrice(robux);
+                const priceElement = item.querySelector('.example-price');
+                if (priceElement) {
+                    priceElement.textContent = formatPrice(customerPrice) + ' ₽';
+                }
+            });
         };
         
         nicknameInput.addEventListener('input', updateValues);
@@ -783,22 +1146,38 @@
             const nickname = nicknameInput.value.trim();
             const robux = parseInt(robuxInput.value);
             const customerPrice = calculateCustomerPrice(robux);
-            const gamepassPriceValue = calculateGamepassPrice(customerPrice);
+            const gamepassPriceValue = calculateGamepassPrice(robux);
             
-            const message = `🎮 *ЗАКАЗ ROBUX*\n` +
-                          `━━━━━━━━━━━━━━━━━━━━\n` +
-                          `👤 *Никнейм:* ${nickname}\n` +
-                          `━━━━━━━━━━━━━━━━━━━━\n` +
-                          `💰 *Детали заказа:*\n` +
-                          `├ 🪙 Robux: ${formatNumber(robux)} R$\n` +
-                          `├ 💵 Стоимость: ${formatPrice(customerPrice)} ₽\n` +
-                          `└ 🎮 Game Pass: ~${formatPrice(gamepassPriceValue)} ₽\n` +
-                          `━━━━━━━━━━━━━━━━━━━━\n` +
-                          `⏱️ *Доставка:* 4 дня`;
+            let message;
+            
+            if (nickname === '') {
+                message = `🎮 **ЗАКАЗ ROBUX**\n` +
+                        `━━━━━━━━━━━━━━━━━━━━\n` +
+                        `👤 **Никнейм:** (не указан)\n` +
+                        `━━━━━━━━━━━━━━━━━━━━\n` +
+                        `💰 **Детали заказа:**\n` +
+                        `├ 🪙 Robux: ${formatNumber(robux)} R$\n` +
+                        `├ 💵 Стоимость: ${formatPrice(customerPrice)} ₽\n` +
+                        `└ 🎮 Game Pass: ${formatPrice(gamepassPriceValue)} ₽\n` +
+                        `━━━━━━━━━━━━━━━━━━━━\n` +
+                        `⏱️ **Доставка:** 120 часов после оплаты`;
+            } else {
+                message = `🎮 **ЗАКАЗ ROBUX**\n` +
+                        `━━━━━━━━━━━━━━━━━━━━\n` +
+                        `👤 **Никнейм:** ${nickname}\n` +
+                        `━━━━━━━━━━━━━━━━━━━━\n` +
+                        `💰 **Детали заказа:**\n` +
+                        `├ 🪙 Robux: ${formatNumber(robux)} R$\n` +
+                        `├ 💵 Стоимость: ${formatPrice(customerPrice)} ₽\n` +
+                        `└ 🎮 Game Pass: ${formatPrice(gamepassPriceValue)} ₽\n` +
+                        `━━━━━━━━━━━━━━━━━━━━\n` +
+                        `⏱️ **Доставка:** 120 часов после оплаты`;
+            }
             
             window.open(`https://t.me/Ymluo?text=${encodeURIComponent(message)}`, '_blank');
         });
         
+        // Инициализация при загрузке
         updateValues();
         
         document.addEventListener('DOMContentLoaded', () => {
@@ -813,7 +1192,53 @@
                 }, 100 * index);
             });
             
-            nicknameInput.focus();
+            // Автофокус на поле Robux
+            robuxInput.focus();
+            robuxInput.select();
+            
+            // Динамическое добавление элементов фона
+            const floatingCircles = document.querySelector('.floating-circles');
+            const glowingDots = document.querySelector('.glowing-dots');
+            
+            // Добавляем больше плавающих кругов
+            for (let i = 4; i <= 6; i++) {
+                const circle = document.createElement('div');
+                circle.className = 'circle';
+                
+                const size = 150 + Math.random() * 200;
+                const posX = Math.random() * 90;
+                const posY = Math.random() * 90;
+                const delay = Math.random() * 25;
+                const color = i % 2 === 0 ? 'rgba(255, 77, 141, 0.06)' : 'rgba(102, 126, 234, 0.04)';
+                
+                circle.style.width = `${size}px`;
+                circle.style.height = `${size}px`;
+                circle.style.top = `${posY}%`;
+                circle.style.left = `${posX}%`;
+                circle.style.animationDelay = `-${delay}s`;
+                circle.style.background = `radial-gradient(circle at ${Math.random() * 100}% ${Math.random() * 100}%, ${color}, transparent)`;
+                
+                floatingCircles.appendChild(circle);
+            }
+            
+            // Добавляем больше пульсирующих точек
+            for (let i = 5; i <= 12; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                
+                const posX = Math.random() * 95;
+                const posY = Math.random() * 95;
+                const delay = Math.random() * 4;
+                const colors = ['var(--accent)', 'var(--gamepass-blue)', 'var(--accent-light)'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                dot.style.top = `${posY}%`;
+                dot.style.left = `${posX}%`;
+                dot.style.animationDelay = `${delay}s`;
+                dot.style.background = color;
+                
+                glowingDots.appendChild(dot);
+            }
         });
     </script>
 </body>
